@@ -1,0 +1,26 @@
+# Java / Maven
+secure-medical-backend/target/
+secure-medical-backend/.idea/
+*.iml
+
+# IntelliJ
+.idea/
+
+# React
+secure-medical-frontend/node_modules/
+secure-medical-frontend/dist/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+application-local.properties
+application-secret.properties
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

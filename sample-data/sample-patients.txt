@@ -1,0 +1,34 @@
+SECURE MEDICAL DATA
+SAMPLE / TEST DATA ONLY
+========================================
+
+Patient 1
+----------------------------------------
+Patient Code : PT-001
+Name         : Arun Kumar
+Age          : 35
+Gender       : Male
+Diagnosis    : Hypertension
+
+Patient 2
+----------------------------------------
+Patient Code : PT-002
+Name         : Priya Sharma
+Age          : 28
+Gender       : Female
+Diagnosis    : Diabetes
+
+Patient 3
+----------------------------------------
+Patient Code : PT-003
+Name         : Karthik Raj
+Age          : 42
+Gender       : Male
+Diagnosis    : Asthma
+
+========================================
+NOTE:
+All patient information in this file is
+fictional test data created for demonstration.
+
+No real patient information is used.
