@@ -1,5 +1,4 @@
 function Header({ activePage, username, role, onLogout }) {
-
     const pageTitles = {
         dashboard: "Dashboard",
         patients: "Patient Management",
@@ -10,19 +9,16 @@ function Header({ activePage, username, role, onLogout }) {
     };
 
     return (
-
         <header className="app-header">
 
-            <div>
-
-                <p className="header-label">
+            <div className="header-title">
+                <span className="header-system-name">
                     SECURE MEDICAL DATA
-                </p>
+                </span>
 
                 <h1>
                     {pageTitles[activePage]}
                 </h1>
-
             </div>
 
             <div className="header-user">
@@ -32,15 +28,8 @@ function Header({ activePage, username, role, onLogout }) {
                 </div>
 
                 <div className="user-details">
-
-                    <strong>
-                        {username}
-                    </strong>
-
-                    <span>
-                        {role}
-                    </span>
-
+                    <strong>{username}</strong>
+                    <span>{role}</span>
                 </div>
 
                 <button
