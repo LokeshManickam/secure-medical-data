@@ -7,6 +7,7 @@ import com.medicalsecurity.repository.UserRepository;
 import com.medicalsecurity.security.JwtService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.medicalsecurity.entity.AccountStatus;
 
 @Service
 public class AuthService {
@@ -30,7 +31,16 @@ public class AuthService {
         User user = userRepository
                 .findByUsername(request.username())
                 .orElseThrow(() ->
-                        new IllegalArgumentException("Invalid username or password"));
+                        new IllegalArgumentException(
+                                "Invalid username or password"
+                        ));
+
+        // Only ACTIVE accounts are allowed to authenticate.
+        if (user.getStatus() != AccountStatus.ACTIVE) {
+            throw new IllegalArgumentException(
+                    "Invalid username or password"
+            );
+        }
 
         boolean passwordMatches = passwordEncoder.matches(
                 request.password(),

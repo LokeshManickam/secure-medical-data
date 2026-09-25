@@ -1,32 +1,29 @@
 package com.medicalsecurity.security;
 
-import com.medicalsecurity.entity.User;
-import com.medicalsecurity.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.List;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final UserRepository userRepository;
+    private final CustomUserDetailsService userDetailsService;
 
     public JwtAuthenticationFilter(
             JwtService jwtService,
-            UserRepository userRepository) {
+            CustomUserDetailsService userDetailsService) {
 
         this.jwtService = jwtService;
-        this.userRepository = userRepository;
+        this.userDetailsService = userDetailsService;
     }
 
     @Override
@@ -52,7 +49,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             username = jwtService.extractUsername(token);
+
         } catch (Exception exception) {
+
+            System.out.println(
+                    "JWT validation failed: "
+                            + exception.getClass().getSimpleName()
+                            + " - "
+                            + exception.getMessage()
+            );
 
             filterChain.doFilter(request, response);
             return;
@@ -61,23 +66,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (username != null &&
                 SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            User user = userRepository
-                    .findByUsername(username)
-                    .orElse(null);
+            UserDetails userDetails =
+                    userDetailsService.loadUserByUsername(username);
 
-            if (user != null &&
-                    jwtService.isTokenValid(token, user.getUsername())) {
-
-                SimpleGrantedAuthority authority =
-                        new SimpleGrantedAuthority(
-                                "ROLE_" + user.getRole().name()
-                        );
+            if (jwtService.isTokenValid(
+                    token,
+                    userDetails.getUsername())) {
 
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
-                                user.getUsername(),
+                                userDetails.getUsername(),
                                 null,
-                                List.of(authority)
+                                userDetails.getAuthorities()
                         );
 
                 SecurityContextHolder

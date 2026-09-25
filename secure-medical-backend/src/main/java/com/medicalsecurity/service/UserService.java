@@ -6,6 +6,8 @@ import com.medicalsecurity.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -42,5 +44,14 @@ public class UserService {
 
         // Save the user to MySQL
         return userRepository.save(user);
+    }
+
+    /**
+     * Retrieves all application users.
+     *
+     * @return list of all users
+     */
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
     }
 }

@@ -6,6 +6,8 @@ import com.medicalsecurity.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @RequestMapping("/api/users")
@@ -51,6 +53,27 @@ public class UserController {
             Role role
     ) {
     }
+
+    /**
+     * Retrieves all application users.
+     */
+
+    @PreAuthorize("hasAuthority('USER_VIEW')")
+    @GetMapping
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+
+        List<UserResponse> users = userService.findAllUsers()
+                .stream()
+                .map(user -> new UserResponse(
+                        user.getId(),
+                        user.getUsername(),
+                        user.getRole()
+                ))
+                .toList();
+
+        return ResponseEntity.ok(users);
+    }
+
 
     /**
      * Response DTO.
