@@ -42,6 +42,12 @@ public class PermissionDataInitializer {
 
             createIfMissing(
                     permissionRepository,
+                    PermissionNames.PATIENT_ASSIGN,
+                    "Assign a healthcare user to a patient"
+            );
+
+            createIfMissing(
+                    permissionRepository,
                     PermissionNames.MEDICAL_RECORD_VIEW,
                     "View medical records"
             );
@@ -169,7 +175,8 @@ public class PermissionDataInitializer {
             createIfMissing(
                     permissionRepository,
                     PermissionNames.SECURITY_EVENT_MANAGE,
-                    "Manage security events");
+                    "Manage security events"
+            );
         };
     }
 

@@ -11,6 +11,7 @@ public final class PermissionNames {
     public static final String PATIENT_CREATE = "PATIENT_CREATE";
     public static final String PATIENT_UPDATE = "PATIENT_UPDATE";
     public static final String PATIENT_DELETE = "PATIENT_DELETE";
+    public static final String PATIENT_ASSIGN = "PATIENT_ASSIGN";
 
     // Medical records
     public static final String MEDICAL_RECORD_VIEW = "MEDICAL_RECORD_VIEW";

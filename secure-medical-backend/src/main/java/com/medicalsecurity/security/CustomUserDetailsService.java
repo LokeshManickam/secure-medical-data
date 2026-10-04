@@ -16,7 +16,8 @@ import java.util.Collection;
 import java.util.List;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService
+        implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final RolePermissionRepository rolePermissionRepository;
@@ -33,14 +34,16 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
 
-        User user = userRepository.findByUsername(username)
+        User user = userRepository
+                .findByUsername(username)
                 .orElseThrow(() ->
                         new UsernameNotFoundException(
                                 "User not found: " + username
                         )
                 );
 
-        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        Collection<GrantedAuthority> authorities =
+                new ArrayList<>();
 
         // Add the user's role.
         authorities.add(
@@ -49,15 +52,18 @@ public class CustomUserDetailsService implements UserDetailsService {
                 )
         );
 
-        // Load permissions assigned to the user's role.
+        // Load all permissions assigned to the role.
         List<RolePermission> rolePermissions =
-                rolePermissionRepository.findByRoleWithPermission(user.getRole());
+                rolePermissionRepository
+                        .findByRoleWithPermission(user.getRole());
 
         for (RolePermission rolePermission : rolePermissions) {
 
             authorities.add(
                     new SimpleGrantedAuthority(
-                            rolePermission.getPermission().getName()
+                            rolePermission
+                                    .getPermission()
+                                    .getName()
                     )
             );
         }
